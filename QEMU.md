@@ -16,8 +16,8 @@ You are more than welcome to use your own custom kernel compilation methods and 
 
 ### Installing Git 
 ```
-sudo apt-get install git
-git clone https://github.com/SudarsunKannan/AdvOS
+sudo apt -y install git
+git clone https://github.com/r/AdvOS
 cd AdvOS
 ```
 
@@ -32,10 +32,21 @@ We will be using linux-4.17 kernel this semester
 cd $BASE
 wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.17.tar.xz
 tar xf linux-4.17.tar.xz
+
+
+# https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/log/?h=linux-4.17.y # refer website
+# https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/log/?h=v4.17.19 # refer website 
+
+git clone --depth 1 --branch linux-4.17.y https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+
+git clone --branch linux-4.17.y https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git # if want history with latest minor of 4.17
+
+git clone --branch linux-4.17.19 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git # if exact version with history
 ```
 
-### Instal required libraries
+### Install required libraries (Follow ansible script for this kernel development, kernel programming)
 ```
+# libelf-dev # Makefile:970: *** "Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel".  Stop.
 sudo apt-get install -y build-essential cmake libssl-dev bison flex
 ```
 
@@ -45,13 +56,18 @@ trusty specifies the host system's linux version/codename; pass your own OS vers
 ```
 sudo lsb_release -a
 ```
-source scripts/setvars.sh "trusty"   
+
+```shell
+source scripts/setvars.sh "trusty" 
 ```
 
+
+```
 Then generate a configuration file
 ```
 cd linux-4.17
-sudo make x86_64_defconfig
+# sudo make x86_64_defconfig
+make x86_64_defconfig # sudo is not required because we are doing in home dir subpath
 ```
 
 Time to switch off SELINUX as it could cause issues in some versions. Open the .config file 
