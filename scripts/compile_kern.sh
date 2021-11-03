@@ -15,7 +15,7 @@ set -x
 #Compile the kernel with '-j' (denotes parallelism) in sudo mode
 make $PARA -C $KERN_SRC
 make modules -C $KERN_SRC
-linux_version="4.19.208"
+linux_version="4.17.19"
 
 # \ uses the original cp command and not any defined alias
 \cp $KERN_SRC/arch/x86/boot/bzImage $KERNEL/vmlinuz-$linux_version
